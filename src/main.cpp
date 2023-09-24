@@ -1,18 +1,29 @@
 #include <Arduino.h>
 
 // put function declarations here:
-int myFunction(int, int);
+int getGasValue();
+const int GAS_PIN = 4;
+
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(115200);
+  pinMode(GAS_PIN, INPUT);
+  Serial.println("MQ2 warming up!");
+	delay(20000); // allow the MQ2 to warm up
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  // get chemical values
+
+  // read time
+
+  // send to SQS message
+  getGasValue();
+  delay(2000); // wait 2s for next reading
 }
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+int getGasValue() {
+  int gasValue = analogRead(GAS_PIN) * 100 / 4095;
+  Serial.println(gasValue);
+  return gasValue;
 }
